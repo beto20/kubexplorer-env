@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-4
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: java-4
+        tier: backend
+        tierType: business
+    spec:
+      containers:
+        - name: java-4
+          image: IMAGE_CONTAINER_REGISTRY
+          imagePullPolicy: Always
+          ports:
+            - name: app-port
+              containerPort: 8080
+          resources:
+            requests:
+              memory: 150Mi
+              cpu: 100m
+            limits:
+              memory: 400Mi
+              cpu: 300m
+          env:
+            - name: APP_NAME
+              value: java-4
+            - name: PROFILE
+              valueFrom:
+                secretKeyRef:
+                  name: ks-secret
+                  key: profile
+            - name: LABEL
+              valueFrom:
+                secretKeyRef:
+                  name: ks-secret
+                  key: label
+            - name: SSH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ks-secret
+                  key: ssh-private-key
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-4-service-private
+  labels:
+    app: java-4
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: httpexternal
+  selector:
+    app: java-4
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: java-4-hpa
+  labels:
+    app: java-4
+    tier: backend
+    tierType: business
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: java-4
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 120
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 120
