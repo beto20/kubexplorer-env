@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ks-configmap
+  namespace: east
+data:
+  property_key_01: "Prueba Mock"
+  dev.properties: |
+    sql.server.example=bdsql2025

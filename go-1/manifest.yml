@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-1
+  name: go-schedule
+  namespace: east
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: go-1
+      app: go-schedule
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: go-1
+        app: go-schedule
         tier: backend
         tierType: business
     spec:
       containers:
-        - name: go-1
-          image: IMAGE_CONTAINER_REGISTRY
+        - name: go-schedule
+          image: albertovs/go-schedule
           imagePullPolicy: Always
           ports:
             - name: app-port
@@ -31,31 +32,46 @@ spec:
               memory: 400Mi
               cpu: 300m
           env:
+            - name: PLAYER_INITIAL_LIVES
+              valueFrom:
+                configMapKeyRef:
+                  name: ks-configmap
+                  key: property_key_01
             - name: APP_NAME
-              value: go-1
+              value: go-schedule
             - name: PROFILE
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: profile
             - name: LABEL
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: label
             - name: SSH_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: ssh-private-key
-
+          volumeMounts:
+            - mountPath: "/config"
+              name: config
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: ks-configmap
+            items:
+              - key: "dev.properties"
+                path: "dev.properties"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-1-service-private
+  name: go-schedule-service-private
   labels:
-    app: go-1
+    app: go-schedule
 spec:
   type: ClusterIP
   ports:
@@ -64,21 +80,21 @@ spec:
       protocol: TCP
       name: httpexternal
   selector:
-    app: go-1
+    app: go-schedule
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: go-1-hpa
+  name: go-schedule-hpa
   labels:
-    app: go-1
+    app: go-schedule
     tier: backend
     tierType: business
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: go-1
+    name: go-schedule
   minReplicas: 1
   maxReplicas: 2
   metrics:

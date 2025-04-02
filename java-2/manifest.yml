@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-2
+  name: java-course
+  namespace: west
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: java-2
+      app: java-course
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: java-2
+        app: java-course
         tier: backend
         tierType: business
     spec:
       containers:
-        - name: java-2
-          image: IMAGE_CONTAINER_REGISTRY
+        - name: java-course
+          image: albertovs/java-course
           imagePullPolicy: Always
           ports:
             - name: app-port
@@ -32,7 +33,7 @@ spec:
               cpu: 300m
           env:
             - name: APP_NAME
-              value: java-2
+              value: java-course
             - name: PROFILE
               valueFrom:
                 secretKeyRef:
@@ -53,9 +54,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-2-service-private
+  name: java-course-service-private
   labels:
-    app: java-2
+    app: java-course
 spec:
   type: ClusterIP
   ports:
@@ -64,21 +65,21 @@ spec:
       protocol: TCP
       name: httpexternal
   selector:
-    app: java-2
+    app: java-course
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: java-2-hpa
+  name: java-course-hpa
   labels:
-    app: java-2
+    app: java-course
     tier: backend
     tierType: business
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: java-2
+    name: java-course
   minReplicas: 1
   maxReplicas: 2
   metrics:

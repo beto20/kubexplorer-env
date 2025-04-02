@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-1
+  name: java-person
+  namespace: west
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: java-1
+      app: java-person
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: java-1
+        app: java-person
         tier: backend
         tierType: business
     spec:
       containers:
-        - name: java-1
-          image: IMAGE_CONTAINER_REGISTRY
+        - name: java-person
+          image: albertovs/java-person
           imagePullPolicy: Always
           ports:
             - name: app-port
@@ -32,7 +33,7 @@ spec:
               cpu: 300m
           env:
             - name: APP_NAME
-              value: java-1
+              value: java-person
             - name: PROFILE
               valueFrom:
                 secretKeyRef:
@@ -53,9 +54,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-1-service-private
+  name: java-person-service-private
   labels:
-    app: java-1
+    app: java-person
 spec:
   type: ClusterIP
   ports:
@@ -64,21 +65,21 @@ spec:
       protocol: TCP
       name: httpexternal
   selector:
-    app: java-1
+    app: java-person
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: java-1-hpa
+  name: java-person-hpa
   labels:
-    app: java-1
+    app: java-person
     tier: backend
     tierType: business
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: java-1
+    name: java-person
   minReplicas: 1
   maxReplicas: 2
   metrics:

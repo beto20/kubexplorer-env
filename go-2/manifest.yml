@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-2
+  name: go-location
+  namespace: east
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: go-2
+      app: go-location
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: go-2
+        app: go-location
         tier: backend
         tierType: business
     spec:
       containers:
-        - name: go-2
-          image: IMAGE_CONTAINER_REGISTRY
+        - name: go-location
+          image: albertovs/go-location
           imagePullPolicy: Always
           ports:
             - name: app-port
@@ -32,30 +33,30 @@ spec:
               cpu: 300m
           env:
             - name: APP_NAME
-              value: go-2
+              value: go-location
             - name: PROFILE
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: profile
             - name: LABEL
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: label
             - name: SSH_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: ks-secret
+                  name: ks-secret-east
                   key: ssh-private-key
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-2-service-private
+  name: go-location-service-private
   labels:
-    app: go-2
+    app: go-location
 spec:
   type: ClusterIP
   ports:
@@ -64,21 +65,21 @@ spec:
       protocol: TCP
       name: httpexternal
   selector:
-    app: go-2
+    app: go-location
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: go-2-hpa
+  name: go-location-hpa
   labels:
-    app: go-2
+    app: go-location
     tier: backend
     tierType: business
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: go-2
+    name: go-location
   minReplicas: 1
   maxReplicas: 2
   metrics:
