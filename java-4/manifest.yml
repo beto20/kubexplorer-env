@@ -49,6 +49,13 @@ spec:
                 secretKeyRef:
                   name: ks-secret
                   key: ssh-private-key
+          volumeMounts:
+            - mountPath: /usr/share/
+              name: java-teacher-pv-storage
+      volumes:
+        - name: java-teacher-pv-storage
+          persistentVolumeClaim:
+            claimName: ks-java-pv-claim
 
 ---
 apiVersion: v1

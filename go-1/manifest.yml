@@ -65,6 +65,9 @@ spec:
             items:
               - key: "dev.properties"
                 path: "dev.properties"
+        - name: go-schedule-pv-storage
+          persistentVolumeClaim:
+            claimName: ks-go-pv-claim
 ---
 apiVersion: v1
 kind: Service
