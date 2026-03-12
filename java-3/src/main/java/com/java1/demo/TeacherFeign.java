@@ -9,6 +9,6 @@ import java.util.List;
 @FeignClient(name = "TeacherFeign", url = "${teacher.url}")
 public interface TeacherFeign {
 
-    @GetMapping("/api/full")
+    @GetMapping("/api/teachers")
     List<Teacher> getTeacher();
 }

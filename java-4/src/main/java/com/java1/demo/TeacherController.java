@@ -21,4 +21,9 @@ public class TeacherController {
         return Arrays.asList(new Teacher("Marco", "Aguirre", "Matematica", "Mañana", full.getFirst()));
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "LLEGO";
+    }
+
 }

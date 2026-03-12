@@ -4,27 +4,27 @@ metadata:
   name: java-teacher
   namespace: west
 spec:
-  replicas: 1
+  replicas: 1 # editar
   selector:
     matchLabels:
-      app: java-teacher
+      app: java-teacher # editar
   strategy:
-    type: Recreate
+    type: Recreate # editar
   template:
     metadata:
       labels:
-        app: java-teacher
-        tier: backend
-        tierType: business
+        app: java-teacher # editar
+        tier: backend # editar
+        tierType: business # editar
     spec:
       containers:
         - name: java-teacher
-          image: albertovs/java-teacher
-          imagePullPolicy: Always
+          image: albertovs/java-teacher # editar
+          imagePullPolicy: Always # editar
           ports:
             - name: app-port
-              containerPort: 8080
-          resources:
+              containerPort: 8080 # editar
+          resources: # editar
             requests:
               memory: 150Mi
               cpu: 100m
@@ -61,18 +61,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-teacher-service-private
+  name: java-teacher-service-private # editar
   labels:
-    app: java-teacher
+    app: java-teacher # editar
 spec:
-  type: ClusterIP
+  type: ClusterIP # editar
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8080 # editar
+      targetPort: 8080 # editar
       protocol: TCP
       name: httpexternal
   selector:
-    app: java-teacher
+    app: java-teacher # editar
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
