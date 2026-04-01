@@ -21,7 +21,8 @@ public class CourseInfoResponseDto {
     private String description;
     private int credit;
     private String location;
-     Teacher teacher;
+    Teacher teacher;
+    Program program;
 
     public static class Teacher {
         private String name;
@@ -65,6 +66,65 @@ public class CourseInfoResponseDto {
         }
     }
 
+    public static class Program {
+        private Integer id;
+        private String name;
+        private String description;
+        private int time;
+        private int creditQuantity;
+        private int coursesQuantity;
+
+        public Program() {
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public int getTime() {
+            return time;
+        }
+
+        public void setTime(int time) {
+            this.time = time;
+        }
+
+        public int getCreditQuantity() {
+            return creditQuantity;
+        }
+
+        public void setCreditQuantity(int creditQuantity) {
+            this.creditQuantity = creditQuantity;
+        }
+
+        public int getCoursesQuantity() {
+            return coursesQuantity;
+        }
+
+        public void setCoursesQuantity(int coursesQuantity) {
+            this.coursesQuantity = coursesQuantity;
+        }
+    }
     public int getId() {
         return id;
     }
@@ -111,5 +171,13 @@ public class CourseInfoResponseDto {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
     }
 }

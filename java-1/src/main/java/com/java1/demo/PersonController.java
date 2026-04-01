@@ -1,9 +1,7 @@
 package com.java1.demo;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,10 +12,12 @@ public class PersonController {
 
     private final CourseFeign feign;
     private final TeacherFeign teacherFeign;
+    private final ProgramService service;
 
-    public PersonController(CourseFeign feign, TeacherFeign teacherFeign) {
+    public PersonController(CourseFeign feign, TeacherFeign teacherFeign, ProgramService service) {
         this.feign = feign;
         this.teacherFeign = teacherFeign;
+        this.service = service;
     }
 
     @GetMapping("/public")
@@ -43,6 +43,8 @@ public class PersonController {
 
         var response = new CourseInfoResponseDto();
         var teacherDto = new CourseInfoResponseDto.Teacher();
+        var programDto = new CourseInfoResponseDto.Program();
+
         teacherDto.setName(teacher.name());
         teacherDto.setLastname(teacher.lastname());
         teacherDto.setAge(teacher.age());
@@ -55,10 +57,24 @@ public class PersonController {
         response.setLocation(course.get(0).location());
         response.setTeacher(teacherDto);
 
+        service.getPrograms().forEach(x -> {
+            programDto.setId(x.getId());
+            programDto.setName(x.getName());
+            programDto.setDescription(x.getDescription());
+            programDto.setTime(x.getTime());
+            programDto.setCoursesQuantity(x.getCoursesQuantity());
+            programDto.setCreditQuantity(x.getCreditQuantity());
+        });
+
+        response.setProgram(programDto);
+
         return response;
     }
 
-
+    @PostMapping("/program")
+    public void createProgram(@RequestBody CourseInfoResponseDto.Program dto) {
+        service.saveProgram(dto);
+    }
 
     @GetMapping("/public/test")
     public String test() {
