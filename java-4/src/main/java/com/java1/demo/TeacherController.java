@@ -21,6 +21,11 @@ public class TeacherController {
         return Arrays.asList(new Teacher("Marco", "Aguirre", "Matematica", "Mañana", full.getFirst()));
     }
 
+    @GetMapping("/teacher")
+    public TeacherResponseDto getTeacher() {
+        return new TeacherResponseDto("Marco", "Aguirre", 30,"marco@idat.pe");
+    }
+
     @GetMapping("/test")
     public String test() {
         return "LLEGO";

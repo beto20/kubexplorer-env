@@ -14,7 +14,12 @@ public class CourseController {
 
     @GetMapping("/courses")
     public List<Course> getCourses() {
-        return Arrays.asList(new Course("Matematica", "Curso de matematica I", 3));
+        return Arrays.asList(
+                new Course(12345, "Aplicaciones en la nube", "Curso para desarrollar " +
+                "aplicaciones en la nube", 3, "Virtual"),
+                new Course(22345, "Desarrollo android", "Curso para desarrollar " +
+                        "aplicaciones en Android", 5, "Lima centro")
+        );
     }
 
     @GetMapping("/test")
