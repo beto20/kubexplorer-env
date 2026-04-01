@@ -49,6 +49,9 @@
       },
       {
         "name": "ADMIN"
+      },
+      {
+        "name": "PRUEBA"
       }
     ]
   },
@@ -64,6 +67,25 @@
         {
           "type": "password",
           "value": "123456",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "USER",
+        "ADMIN"
+      ]
+    },
+    {
+      "username": "nuevousuario",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Marco",
+      "lastName": "Perez",
+      "email": "marco@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123abc",
           "temporary": false
         }
       ],
