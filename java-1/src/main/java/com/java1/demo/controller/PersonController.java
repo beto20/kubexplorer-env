@@ -1,6 +1,12 @@
-package com.java1.demo;
+package com.java1.demo.controller;
 
 
+import com.java1.demo.model.dto.CourseInfoResponseDto;
+import com.java1.demo.model.Person;
+import com.java1.demo.model.PersonFull;
+import com.java1.demo.rest.CourseFeign;
+import com.java1.demo.rest.TeacherFeign;
+import com.java1.demo.service.ProgramService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -75,6 +81,7 @@ public class PersonController {
     public void createProgram(@RequestBody CourseInfoResponseDto.Program dto) {
         service.saveProgram(dto);
     }
+
 
     @GetMapping("/public/test")
     public String test() {

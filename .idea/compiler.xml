@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="demo3" />
+        <module name="demo (1) (com.java-0)" />
         <module name="demo4" />
         <module name="demo" />
         <module name="demo1" />
@@ -30,6 +31,7 @@
       <module name="demo" options="-parameters" />
       <module name="demo (1)" options="-parameters" />
       <module name="demo (1) (com.gateway)" options="-parameters" />
+      <module name="demo (1) (com.java-0)" options="-parameters" />
       <module name="demo (1) (com.java1)" options="-parameters" />
       <module name="demo (2)" options="-parameters" />
       <module name="demo (2) (com.java2)" options="-parameters" />

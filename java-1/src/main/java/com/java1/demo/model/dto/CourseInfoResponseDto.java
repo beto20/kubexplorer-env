@@ -1,6 +1,5 @@
-package com.java1.demo;
+package com.java1.demo.model.dto;
 
-import org.springframework.web.bind.annotation.GetMapping;
 
 public class CourseInfoResponseDto {
 

@@ -1,6 +1,7 @@
-package com.java1.demo;
+package com.java1.demo.rest;
 
 
+import com.java1.demo.model.Course;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

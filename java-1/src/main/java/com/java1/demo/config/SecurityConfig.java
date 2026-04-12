@@ -1,4 +1,4 @@
-package com.java1.demo;
+package com.java1.demo.config;
 
 
 import org.springframework.context.annotation.Bean;

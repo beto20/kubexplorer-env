@@ -28,7 +28,6 @@ public class ProgramController {
                 teacher.get(0).personFull().credit()
         ));
     }
-    //- andrew david paredes bravo
-    //- steven abanto
+
 
 }
